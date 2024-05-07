@@ -1,0 +1,37 @@
+{
+  "name": "rammewerk/database",
+  "type": "library",
+  "description": "A simple and handy database utility",
+  "homepage": "https://rammewerk.com",
+  "license": "MIT",
+  "keywords": [
+    "database",
+    "pdo",
+    "schema"
+  ],
+  "authors": [
+    {
+      "name": "Kristoffer Follestad",
+      "email": "kristoffer@rammewerk.com"
+    }
+  ],
+  "autoload": {
+    "psr-4": {
+      "Rammewerk\\Component\\Database\\": "src/"
+    },
+    "exclude-from-classmap": [
+      "tests/",
+      ".idea/"
+    ]
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Rammewerk\\Component\\Database\\Tests\\": "tests/"
+    }
+  },
+  "require": {
+    "rammewerk/hydrator": "^1.0",
+    "php": ">=8.3",
+    "ext-pdo": "*"
+  }
+}
