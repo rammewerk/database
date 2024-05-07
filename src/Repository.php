@@ -1,11 +1,17 @@
 <?php
 
+/**
+ * @noinspection PhpMultipleClassDeclarationsInspection PhpMultipleClassDeclarationsInspection
+ * @noinspection SqlNoDataSourceInspection SqlNoDataSourceInspection
+ * @noinspection PhpUnused PhpUnused
+ */
+
 namespace Rammewerk\Component\Database;
 
-use Rammewerk\Component\Hydrator\RepositoryCollection;
-use Rammewerk\Component\Hydrator\Hydrator\RepositoryModelHydrator;
-use App\Database\Schema\Schema;
-use App\Database\Schema\TableSchema;
+use Rammewerk\Component\Database\Schema\Schema;
+use Rammewerk\Component\Database\Schema\TableSchema;
+use Rammewerk\Component\Hydrator\Hydrator;
+use Rammewerk\Component\Hydrator\HydratorCollection;
 use BackedEnum;
 use DateTime;
 use JsonException;
@@ -17,6 +23,8 @@ abstract class Repository implements Schema {
 
     protected string $table;
     protected string $primary;
+
+    /** @var string[] List of schema column names */
     private array $column_list = [];
 
     public function __construct(protected readonly Database $db) {
@@ -43,7 +51,7 @@ abstract class Repository implements Schema {
     /**
      * Get array of all table columns
      *
-     * @return array
+     * @return string[] List of schema column names
      */
     protected function getSchemaColumns(): array {
         if( empty( $this->column_list ) ) {
@@ -77,7 +85,7 @@ abstract class Repository implements Schema {
      * @return TEntity|null
      */
     protected function hydrate(string $entity, array|null $data) {
-        return $data ? (new RepositoryModelHydrator( $entity ))->hydrate( (array)$data ) : null;
+        return $data ? (new Hydrator( $entity ))->hydrate( (array)$data ) : null;
     }
 
     /**
@@ -85,10 +93,10 @@ abstract class Repository implements Schema {
      * @template TEntity of object
      * @param class-string<TEntity> $entity
      * @param array<int, array<string, mixed>> $data
-     * @return RepositoryCollection<TEntity>
+     * @return HydratorCollection<TEntity>
      */
-    protected function collection(string $entity, array $data): RepositoryCollection {
-        return new RepositoryCollection( new RepositoryModelHydrator( $entity ), $data );
+    protected function collection(string $entity, array $data): HydratorCollection {
+        return new HydratorCollection( new Hydrator( $entity ), $data );
     }
 
 
@@ -98,6 +106,7 @@ abstract class Repository implements Schema {
      * @param string[] $filter // list of keys to save on update
      * @param array<string, mixed> $include Include in save
      * @return object<T>
+     * @phpstan-ignore-next-line
      */
     public function save(object $entity, array $filter = [], array $include = []): object {
 
@@ -166,6 +175,10 @@ abstract class Repository implements Schema {
     }
 
 
+    /**
+     * @param int $id The primary ID
+     * @return null|array<string, string|int|float|null>
+     */
     protected function fetchById(int $id): ?array {
         return $this->fetch( [$this->primary => $id] );
     }
@@ -188,11 +201,20 @@ abstract class Repository implements Schema {
         return "SELECT * FROM `$this->table` WHERE " . implode( ' AND ', $where );
     }
 
+    /**
+     * @param array<string, string|float|int> $where Array where key is column and value is the where check
+     * @return null|array<string, string|int|float|null>
+     */
     protected function fetch(array $where): ?array {
         $where = array_intersect_key( $where, array_flip( $this->getSchemaColumns() ) );
         return $this->db->fetch( $this->generateWhereQuery( array_keys( $where ) ), array_values( $where ) );
     }
 
+
+    /**
+     * @param array<string, string|float|int> $where
+     * @return array<int, array<string, mixed>>
+     */
     protected function fetchAll(array $where): array {
         $where = array_intersect_key( $where, array_flip( $this->getSchemaColumns() ) );
         return $this->db->fetchAll( $this->generateWhereQuery( array_keys( $where ) ), array_values( $where ) );
