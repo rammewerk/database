@@ -1,4 +1,4 @@
-<?php
+<?php /** @noinspection SqlNoDataSourceInspection SqlNoDataSourceInspection */
 
 namespace Rammewerk\Component\Database;
 
@@ -16,6 +16,14 @@ class Database {
     private array $prepared_stmt_cache = [];
 
 
+    /**
+     * @param string $host
+     * @param string|null $database
+     * @param string $user
+     * @param string $password
+     * @param string $charset
+     * @param array<int, mixed> $options
+     */
     public function __construct(string $host, ?string $database, string $user, string $password, string $charset, array $options = []) {
         $dsn = is_null( $database ) ? "mysql:host=$host;charset=$charset" : "mysql:host=$host;dbname=$database;charset=$charset";
         $this->pdo = new PDO( $dsn, $user, $password, array_replace( [

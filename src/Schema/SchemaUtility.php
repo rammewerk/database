@@ -1,8 +1,8 @@
-<?php
+<?php /** @noinspection SqlNoDataSourceInspection SqlNoDataSourceInspection */
 
 namespace Rammewerk\Component\Database\Schema;
 
-use App\Database\Database\Database;
+use Rammewerk\Component\Database\Database;
 use LogicException;
 use RuntimeException;
 
