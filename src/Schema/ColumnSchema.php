@@ -35,10 +35,11 @@ class ColumnSchema {
             ColumnType::VARCHAR => "varchar($this->length)",
             ColumnType::INT => "int($this->length)" . ($this->unsigned ? " unsigned" : ""),
             ColumnType::TINYINT => "tinyint($this->length)" . ($this->unsigned ? " unsigned" : ""),
+            ColumnType::BIGINT => "bigint($this->length)" . ($this->unsigned ? " unsigned" : ""),
             ColumnType::TEXT => "text",
             ColumnType::DATE => "date",
             ColumnType::DATETIME => "datetime",
-            ColumnType::DECIMAL => "decimal($this->length,$this->precision)",
+            ColumnType::DECIMAL => "decimal($this->length,$this->precision)"
         };
     }
 

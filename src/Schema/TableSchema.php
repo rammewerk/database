@@ -76,6 +76,10 @@ class TableSchema {
         return $this->set( new ColumnSchema( $name, ColumnType::INT, $length ) );
     }
 
+    public function bigint(string $name, int $length = 20): ColumnAttributes {
+        return $this->set( new ColumnSchema( $name, ColumnType::BIGINT, $length ) );
+    }
+
     public function float(string $name, int $length = 11, int $precision = 2): ColumnAttributes {
         return $this->set( new ColumnSchema( $name, ColumnType::DECIMAL, $length, $precision ) );
     }
