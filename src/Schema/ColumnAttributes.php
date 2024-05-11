@@ -17,7 +17,7 @@ readonly class ColumnAttributes {
     /** Sets column as unsigned if numeric type; throws exception otherwise. */
     public function unsigned(): static {
         $this->column->unsigned = match ($this->column->type) {
-            ColumnType::INT, ColumnType::TINYINT, ColumnType::DECIMAL => true,
+            ColumnType::INT, ColumnType::TINYINT, ColumnType::BIGINT, ColumnType::DECIMAL => true,
             default => throw new LogicException( 'Cannot assign unsigned to non-numeric column type' )
         };
         return $this;
