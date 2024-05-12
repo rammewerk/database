@@ -160,6 +160,7 @@ abstract class Repository implements Schema {
             if( $value instanceof DateTime ) $value = $value->format( 'Y-m-d H:i:s' );
             if( $value instanceof BackedEnum ) $value = $value->value;
             if( $value instanceof UnitEnum ) $value = $value->name;
+            if( is_bool( $value ) ) $value = (int)$value;
             # Set empty string for empty scalar (object/array)
             if( is_array( $value ) && empty( $value ) ) $value = null;
             # Support for array -> json
