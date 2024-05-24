@@ -169,6 +169,7 @@ abstract class Repository implements Schema {
             } catch( JsonException $e ) {
                 throw new RuntimeException( "Unable to convert repository array to json for column: $column in table $this->table", 0, $e );
             }
+            if( is_string( $value ) && trim( $value ) === '' ) $value = null;
             # Will save value, but use the included if the value was null - and go back to null if the included value didn't include this.
             $data[$column] = $value ?? $data[$column] ?? null;
         }
