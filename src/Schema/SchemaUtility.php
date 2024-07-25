@@ -197,7 +197,7 @@ readonly class SchemaUtility {
 
         # Keep only the one matching constraint name.
         $filtered_constraints = array_filter( $lines, static function($line) use ($constraint_name) {
-            return str_contains( $line, 'CONSTRAINT' ) && str_contains( $line, $constraint_name );
+            return str_contains( $line, 'CONSTRAINT' ) && str_contains( $line, "`$constraint_name`" );
         } );
 
         if( count( $filtered_constraints ) > 1 ) {
