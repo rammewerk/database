@@ -75,7 +75,7 @@ readonly class ColumnAttributes {
      * @param class-string<Schema> $repository
      * @noinspection PhpDocMissingThrowsInspection PhpDocMissingThrowsInspection
      */
-    public function foreign(string $repository, string $column = null, ?ColumnRelationAction $onDelete = null, ?ColumnRelationAction $onUpdate = null): static {
+    public function foreign(string $repository, ?string $column = null, ?ColumnRelationAction $onDelete = null, ?ColumnRelationAction $onUpdate = null): static {
         /* @noinspection PhpUnhandledExceptionInspection PhpUnhandledExceptionInspection */
         $reflection = new ReflectionClass( $repository );
         if( $reflection->implementsInterface( Schema::class ) ) {

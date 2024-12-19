@@ -44,7 +44,7 @@ class Database {
      * @return PDOStatement
      * @throws PDOException
      */
-    public function run(string $query, array $args = [], string $cache_key = null): PDOStatement {
+    public function run(string $query, array $args = [], ?string $cache_key = null): PDOStatement {
 
         if( !$args ) return $this->pdo->query( $query ) ?: throw new PDOException( 'no result from query' );
 
@@ -68,7 +68,7 @@ class Database {
      *
      * @return null|array<string, string|int|float|null>
      */
-    public function fetch(string $query, array $args = [], string $cache_key = null): ?array {
+    public function fetch(string $query, array $args = [], ?string $cache_key = null): ?array {
         /** @phpstan-ignore-next-line */
         return $this->run( $query, $args, $cache_key )->fetch( PDO::FETCH_ASSOC ) ?: null;
     }
@@ -83,7 +83,7 @@ class Database {
      *
      * @return array<int, array<string, mixed>>
      */
-    public function fetchAll(string $query, array $args = [], string $save_key = null): array {
+    public function fetchAll(string $query, array $args = [], ?string $save_key = null): array {
         return $this->run( $query, $args, $save_key )->fetchAll( PDO::FETCH_ASSOC ) ?: [];
     }
 
@@ -224,7 +224,7 @@ class Database {
      *
      * @return string
      */
-    public function insert(string $table, array $data, string $cache_key = null): string {
+    public function insert(string $table, array $data, ?string $cache_key = null): string {
 
         $table = $this->secureIdentifier( $table );
         $set = $this->prepareSetClause( $data );
@@ -251,7 +251,7 @@ class Database {
      * @param int|string $match_value
      * @param string|null $cache_key
      */
-    public function update(string $table, array $data, string $match_column, int|string $match_value, string $cache_key = null): void {
+    public function update(string $table, array $data, string $match_column, int|string $match_value, ?string $cache_key = null): void {
 
         # Remove idColumn from update
         unset( $data[$match_column] );

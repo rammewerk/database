@@ -190,7 +190,7 @@ readonly class SchemaUtility {
     public function getConstraintQueryLine(string $table, string $constraint_name): string|null {
 
         $createTableQuery = $this->showCreateTableQuery( $table );
-        if( !$createTableQuery ) throw new \RuntimeException( 'Unable to get create table query' );
+        if( !$createTableQuery ) throw new RuntimeException( 'Unable to get create table query' );
 
         # Get each line as array
         $lines = explode( "\n", $createTableQuery );

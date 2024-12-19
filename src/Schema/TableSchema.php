@@ -103,7 +103,7 @@ class TableSchema {
     /**
      * @param class-string<Schema> $repository
      */
-    public function foreign(string $name, string $repository, string $column = null, ColumnRelationAction $onDelete = null, ColumnRelationAction $onUpdate = null): ColumnAttributes {
+    public function foreign(string $name, string $repository, ?string $column = null, ?ColumnRelationAction $onDelete = null, ?ColumnRelationAction $onUpdate = null): ColumnAttributes {
         return $this->set( new ColumnSchema( $name, ColumnType::INT, 11 ) )->foreign( $repository, $column, $onDelete, $onUpdate );
     }
 
